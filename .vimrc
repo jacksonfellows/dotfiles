@@ -4,6 +4,7 @@ Plug 'w0rp/ale'
 Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-commentary'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
