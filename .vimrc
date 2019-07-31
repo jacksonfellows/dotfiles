@@ -42,11 +42,9 @@ fun! ToggleGitBlame()
 
 	if b:git_blame_on
 		call sign_unplace(bufname("%"))
-		unlet b:signs
 		let b:git_blame_on = 0
 	else
 		write
-		let b:signs = {}
 		let git_blame_command = "(cd " . fnamemodify(bufname("%"), ":p:h") . " && git blame --line-porcelain " . fnamemodify(bufname("%"), ":p") . ")"
 		let initials_list = systemlist(git_blame_command . " | perl -w -lnae 'next unless /^author /; shift @F, 1; $initials = join \"\", map { substr $_, 0, 1 } @F; print((length($initials) == 1) ? $initials : ((substr $initials, 0, 1), (substr $initials, -1)));'")
 		if has('gui_running')
@@ -63,7 +61,7 @@ fun! ToggleGitBlame()
 					let params['linehl'] = id
 				endif
 
-				let b:signs[id] = sign_define(id, params)
+				call sign_define(id, params)
 				call sign_place(0, bufname("%"), id, bufname("%"), {"lnum": line_number})
 			endif
 			let line_number += 1
