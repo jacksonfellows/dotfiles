@@ -42,17 +42,29 @@ fun! ToggleGitBlame()
 
 	if b:git_blame_on
 		call sign_unplace(bufname("%"))
+		unlet b:signs
 		let b:git_blame_on = 0
 	else
-		let g:signs = {}
-		let initials_list = systemlist("git blame --line-porcelain " . bufname("%") . " | perl -nae 'shift @F, 1; @F = join \"\", map { substr $_, 0, 1 } @F; print \"@F\n\" if /^author /'")
+		write
+		let b:signs = {}
+		let git_blame_command = "(cd " . fnamemodify(bufname("%"), ":p:h") . " && git blame --line-porcelain " . fnamemodify(bufname("%"), ":p") . ")"
+		let initials_list = systemlist(git_blame_command . " | perl -w -lnae 'next unless /^author /; shift @F, 1; $initials = join \"\", map { substr $_, 0, 1 } @F; print((length($initials) == 1) ? $initials : ((substr $initials, 0, 1), (substr $initials, -1)));'")
+		if has('gui_running')
+			let colors_list = systemlist(git_blame_command . " | perl -w -nae 'BEGIN { $oldest = 0; $newest = \"inf\" } next unless /^author-time /; push @times, $F[1]; $oldest = $F[1] if $F[1] > $oldest; $newest = $F[1] if $F[1] < $newest; END { $delta = $newest - $oldest; for $time (@times) { $color = $delta == 0 ? 0xFFFFFF : ((($time - $oldest)/$delta) * 0xFFFFFF); printf \"%06X %06X\n\", $color, (0xFFFFFF - $color) } }'")
+		endif
 		let line_number = 1
 		for initials in initials_list
 			if len(initials) <= 2
-				if !has_key(g:signs, initials)
-					let g:signs[initials] = sign_define(initials, {"text": initials, "texthl": "StatusLineTerm"})
+				let params = {"text": initials, "texthl": "StatusLineTerm"}
+				let id = "Blame" . bufnr("%") . "l" . line_number
+				if has('gui_running')
+					let colorl = split(colors_list[line_number - 1])
+					execute "highlight " . id . " guibg=#" . colorl[0] . " guifg=#" . colorl[1]
+					let params['linehl'] = id
 				endif
-				call sign_place(0, bufname("%"), initials, bufname("%"), {"lnum": line_number})
+
+				let b:signs[id] = sign_define(id, params)
+				call sign_place(0, bufname("%"), id, bufname("%"), {"lnum": line_number})
 			endif
 			let line_number += 1
 		endfor
