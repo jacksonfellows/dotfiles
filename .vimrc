@@ -15,6 +15,8 @@ set backspace=indent,eol,start
 set incsearch hlsearch
 set ignorecase smartcase
 
+set autoread
+
 let mapleader = " "
 
 nnoremap <LEADER>t :set hlsearch!<CR>
