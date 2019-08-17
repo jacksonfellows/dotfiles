@@ -1,25 +1,34 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'w0rp/ale'
-Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-signify'
+Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 
 call plug#end()
 
 filetype plugin indent on
 syntax on
+set relativenumber
 set hidden
-set backspace=indent,eol,start
+set showcmd
+set backspace=
 set incsearch hlsearch
 set ignorecase smartcase
 
-set autoread
+runtime! ftplugin/man.vim
+
+" set autoread
 
 let mapleader = " "
 
-nnoremap <LEADER>t :set hlsearch!<CR>
+nnoremap <LEADER>j :ALENextWrap<CR>
+nnoremap <LEADER>k :ALEPreviousWrap<CR>
+
+" TODO: better letter?
+nnoremap <LEADER>t :noh<CR>
 
 nnoremap <LEADER>ev :edit $MYVIMRC<CR>
 nnoremap <LEADER>sv :source $MYVIMRC<CR>
@@ -75,19 +84,13 @@ endfun
 nnoremap <LEADER>b :call ToggleGitBlame()<CR>
 
 inoremap jk <ESC>
-tnoremap jk <ESC>
 
 nnoremap <C-h> <C-W>h
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-l> <C-W>l
 
-tnoremap <C-h> <C-W>h
-tnoremap <C-j> <C-W>j
-tnoremap <C-k> <C-W>k
-tnoremap <C-l> <C-W>l
-
-" TODO: only for Terminal.app
+"TODO: only for Terminal.app
 
 " Mode Settings
 
