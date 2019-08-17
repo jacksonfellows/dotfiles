@@ -1,5 +1,0 @@
-set editing-mode vi
-
-set keymap vi-insert
-"\C-l": clear-screen
-"jk": vi-movement-mode
