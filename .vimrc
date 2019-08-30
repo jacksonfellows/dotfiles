@@ -1,6 +1,8 @@
 call plug#begin('~/.vim/plugged')
 
+Plug 'kovisoft/slimv'
 Plug 'mhinz/vim-signify'
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -17,8 +19,21 @@ set showcmd
 set backspace=
 set incsearch hlsearch
 set ignorecase smartcase
+set nomodeline
 
 runtime! ftplugin/man.vim
+
+cnoremap <C-a>  <Home>
+cnoremap <C-b>  <Left>
+cnoremap <C-f>  <Right>
+cnoremap <C-d>  <Delete>
+cnoremap <M-b>  <S-Left>
+cnoremap <M-f>  <S-Right>
+cnoremap <M-d>  <S-right><Delete>
+cnoremap <Esc>b <S-Left>
+cnoremap <Esc>f <S-Right>
+cnoremap <Esc>d <S-right><Delete>
+cnoremap <C-g>  <C-c>
 
 " set autoread
 
@@ -90,7 +105,14 @@ nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-l> <C-W>l
 
-"TODO: only for Terminal.app
+nnoremap <Tab>h <C-W>h<C-W>\|
+nnoremap <Tab>j <C-W>j<C-W>_
+nnoremap <Tab>k <C-W>k<C-W>_
+nnoremap <Tab>l <C-W>l<C-W>\|
+
+nnoremap <Tab>= <C-W>=
+
+" TODO: only for Terminal.app
 
 " Mode Settings
 
@@ -106,4 +128,3 @@ let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 "  4 -> solid underscore
 "  5 -> blinking vertical bar
 "  6 -> solid vertical bar
-
