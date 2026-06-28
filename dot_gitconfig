@@ -1,0 +1,8 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Jackson Fellows
+	email = jtfellows@icloud.com
+	
+[push]
+	autoSetupRemote = true
