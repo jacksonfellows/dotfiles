@@ -1,0 +1,7 @@
+# dot_zshrc.tmpl
+source ~/.config/zsh/shared.zsh
+{{ if eq .chezmoi.os "darwin" -}}
+source ~/.config/zsh/macos.zsh
+{{ else if eq .chezmoi.os "linux" -}}
+source ~/.config/zsh/linux.zsh
+{{ end -}}
